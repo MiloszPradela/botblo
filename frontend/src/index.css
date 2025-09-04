@@ -13,8 +13,9 @@
 	--box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
 	--box-shadow-hover: 0 4px 15px rgba(0, 0, 0, 0.2);
 
-	--font-main: 'Roboto', sans-serif;
-	--font-secondary: 'Orbitron', sans-serif;
+  --font-main: 'Orbitron', sans-serif;
+	--font-secondary: 'Roboto', sans-serif;
+	
 }
 
 html {
@@ -48,12 +49,14 @@ body.layout-active {
   align-items: unset;
   justify-content: unset;
 }
-/* --- Typografia --- */
+
 h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-secondary);
+    font-family: var(--font-main);
     text-transform: uppercase;
 }
-
+p, span, small {
+  font-family: var(--font-secondary);
+}
 h1 {
 	font-size: 44px !important;
 	line-height: 58px !important;	
@@ -61,15 +64,36 @@ h1 {
 }
 h2 {
 	font-size: 32px !important;
+  line-height: 44px;
 	font-weight: 700 !important;
 }
 h3 {
 	font-size: 24px !important;
+  line-height: 32px;
 	font-weight: 500 !important;
 }
 p {
 	font-size: 17px !important;
 	font-weight: 400 !important;
+  line-height: 24px;
+}
+@media only screen and (max-width: 768px) {
+  h1 {
+    font-size: 36px !important;
+    line-height: 42px !important;	
+  }
+  h2 {
+    font-size: 28px !important;
+    line-height: 36ps;
+  }
+  h3 {
+    font-size: 24px !important;
+    line-height: 28px;
+  }
+  p {
+    font-size: 15px !important;
+    line-height: 22px;
+  }
 }
 
 /* --- Przyciski --- */
@@ -145,7 +169,6 @@ p {
     text-align: center;
     position: relative;
     z-index: 2;
-    min-width: 450px;
 }
 .card,
 .card-inner,
@@ -188,11 +211,13 @@ p {
 .card .form-control,
 .card-inner .form-control,
 .auth-card .form-control {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(0,0,0,0.2);
     color: var(--white-color);
+    border-color: rgba(255, 255, 255, 0.2);
 }
-
+.account-management-container .form-control#email {
+  background-color: rgba(0,0,0,0.9);
+}
 .card .form-control::placeholder,
 .card-inner .form-control::placeholder,
 .auth-card .form-control::placeholder {
@@ -358,7 +383,7 @@ p {
 
 .menu-navigation-area .main-navigation-open li a,
 .menu-navigation-area .main-navigation-open .logout-button {
-  font-family: var(--font-secondary);
+  font-family: var(--font-main);
   font-size: clamp(2rem, 5vw, 3.5rem);
   color: var(--white-color);
   font-weight: bold;
@@ -392,6 +417,33 @@ p {
   margin-right: 20px;
 }
 
+
+@media only screen and (max-width: 768px) {
+  .menu-main-open-inner-container .menu-main-open-inner-div  {
+    justify-content: center !important;
+    align-items: center !important;
+  }
+  .menu-main-open-inner-container .menu-open-logo-area {
+    display: none !important;
+  }
+  .menu-main-open-inner-div::after  {
+    background-image: url(/frontend/src/assets/botblo-logo.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: 1;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    gap: 15px;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .menu-navigation-area .main-navigation-open li a, .menu-navigation-area .main-navigation-open .logout-button {
+    font-size: 1.5rem;
+  }
+}
 /******** my acc *******/
 .account-management-container .nav-tabs {
   border-bottom-color: var(--primary-color);
@@ -416,12 +468,6 @@ p {
 
 .account-management-container .nav-tabs {
   border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-}
-
-.form-control#email {
-    background-color: rgba(0,0,0,0.2);
-    color: var(--white-color);
-    border-color: rgba(255, 255, 255, 0.2);
 }
 
 .account-management-container .nav-link {
@@ -505,3 +551,25 @@ p {
   font-size: 100px !important;
   line-height: 100px !important;
 }
+
+.card>.list-group {
+  border-radius: 0 !important;
+    border: unset !important;
+}
+.card>.list-group li {
+  padding: 0 !important;
+}
+.form-select {
+  background-color: transparent !important;
+}
+@media only screen and (max-width: 600px) {
+  .card>.list-group li {
+    flex-direction: column;
+    gap: 15px;
+    align-items: start !important;
+    border-bottom: 1px solid var(--secondary-color) !important;
+    padding-bottom: 15px !important;
+    margin-bottom: 15px !important;
+  }
+}
+
