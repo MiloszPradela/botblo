@@ -33,45 +33,43 @@ const AccountManagement = () => {
   const [postsError, setPostsError] = useState('');
 
   useEffect(() => {
-  const fetchUserData = async () => {
-    try {
-      const response = await api.get('/account/profile');
-      setProfileData(response.data);
-    } catch (error: unknown) {
-      if (axios.isAxiosError(error)) {
-        setProfileError(error.response?.data?.message || 'Nie udało się pobrać danych użytkownika.');
-      } else {
-        setProfileError('Wystąpił nieznany błąd podczas pobierania danych.');
-      }
-    }
-  };
-  fetchUserData();
-}, []); 
-
-  // Pobieranie wpisów, gdy zakładka jest aktywna
-  useEffect(() => {
-  const fetchUserPosts = async () => {
-    if (activeTab === 'posts') {
-      setPostsLoading(true);
-      setPostsError('');
+    const fetchUserData = async () => {
       try {
-        const response = await api.get('/account/posts');
-        setPosts(response.data);
+        const response = await api.get('/account/profile');
+        setProfileData(response.data);
       } catch (error: unknown) {
         if (axios.isAxiosError(error)) {
-          setPostsError(error.response?.data?.message || 'Nie udało się pobrać listy wpisów.');
+          setProfileError(error.response?.data?.message || 'Nie udało się pobrać danych użytkownika.');
         } else {
-          setPostsError('Wystąpił nieznany błąd podczas pobierania wpisów.');
+          setProfileError('Wystąpił nieznany błąd podczas pobierania danych.');
         }
-      } finally {
-        setPostsLoading(false);
       }
-    }
-  };
-  fetchUserPosts();
-}, [activeTab]);
+    };
+    fetchUserData();
+  }, []);
 
-  // Handlery formularzy
+  useEffect(() => {
+    const fetchUserPosts = async () => {
+      if (activeTab === 'posts') {
+        setPostsLoading(true);
+        setPostsError('');
+        try {
+          const response = await api.get('/account/posts');
+          setPosts(response.data);
+        } catch (error: unknown) {
+          if (axios.isAxiosError(error)) {
+            setPostsError(error.response?.data?.message || 'Nie udało się pobrać listy wpisów.');
+          } else {
+            setPostsError('Wystąpił nieznany błąd podczas pobierania wpisów.');
+          }
+        } finally {
+          setPostsLoading(false);
+        }
+      }
+    };
+    fetchUserPosts();
+  }, [activeTab]);
+
   const handleProfileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setProfileData({ ...profileData, [e.target.name]: e.target.value });
   };
@@ -85,9 +83,9 @@ const AccountManagement = () => {
       const response = await api.put('/account/profile', { username: profileData.username });
       setProfileMessage(response.data.message);
     } catch (err: unknown) {
-       if (axios.isAxiosError(err)) {
+      if (axios.isAxiosError(err)) {
         setProfileError(err.response?.data?.message || 'Wystąpił błąd podczas aktualizacji profilu.');
-        }  else {
+      } else {
         setProfileError('Wystąpił nieznany błąd.');
       }
     }
@@ -108,9 +106,9 @@ const AccountManagement = () => {
       setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
-          setPasswordError(err.response?.data?.message || 'Wystąpił błąd podczas zmiany hasła.');
+        setPasswordError(err.response?.data?.message || 'Wystąpił błąd podczas zmiany hasła.');
       } else {
-          setPasswordError('Wystąpił nieznany błąd.');
+        setPasswordError('Wystąpił nieznany błąd.');
       }
     }
   };
@@ -136,7 +134,7 @@ const AccountManagement = () => {
                     <label htmlFor="username">Nazwa użytkownika</label>
                   </div>
                   <div className="form-floating mb-3">
-                    <input type="email" className="form-control" id="email" name="email" value={profileData.email} placeholder="Adres e-mail" disabled readOnly/>
+                    <input type="email" className="form-control" id="email" name="email" value={profileData.email} placeholder="Adres e-mail" disabled readOnly />
                     <label htmlFor="email">Adres e-mail</label>
                     <div className="form-text mt-2">Zmiana adresu e-mail wymaga kontaktu z administratorem.</div>
                   </div>
@@ -163,13 +161,13 @@ const AccountManagement = () => {
                     <input type="password" className="form-control" id="confirmPassword" name="confirmPassword" value={passwordData.confirmPassword} onChange={handlePasswordChange} placeholder="Potwierdź nowe hasło" required />
                     <label htmlFor="confirmPassword">Potwierdź nowe hasło</label>
                   </div>
-                  <button type="submit" className=" btn-primary">Zmień hasło</button>
+                  <button type="submit" className="btn-primary">Zmień hasło</button>
                 </form>
               </div>
             </div>
           </div>
         );
-      
+
       case 'posts':
         return (
           <div className="card p-4 card-inner">
@@ -177,7 +175,6 @@ const AccountManagement = () => {
             <hr />
             {postsLoading && <div className="text-center"><div className="spinner-border" role="status"><span className="visually-hidden">Ładowanie...</span></div></div>}
             {postsError && <div className="alert alert-danger">{postsError}</div>}
-            
             {!postsLoading && !postsError && (
               posts.length > 0 ? (
                 <ul className="list-group list-group-flush">
@@ -201,7 +198,7 @@ const AccountManagement = () => {
             )}
           </div>
         );
-        
+
       case 'logout':
         return (
           <div className="card p-4 text-center">
@@ -218,7 +215,6 @@ const AccountManagement = () => {
   return (
     <div className="account-management-container">
       <h1 className="mb-4">Zarządzanie kontem</h1>
-      
       <ul className="nav nav-tabs mb-4">
         <li className="nav-item">
           <button className={`nav-link ${activeTab === 'account' ? 'active' : ''}`} onClick={() => setActiveTab('account')}>Konto</button>
@@ -230,7 +226,6 @@ const AccountManagement = () => {
           <button className={`nav-link text-danger ${activeTab === 'logout' ? 'active' : ''}`} onClick={() => setActiveTab('logout')}>Wyloguj</button>
         </li>
       </ul>
-
       <div className="tab-content">
         {renderTabContent()}
       </div>
