@@ -9,6 +9,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import AccountManagement from './pages/AccountManagement';
 import ManageSites from './pages/ManageSites';
 import CreatePost from './pages/CreatePost';
+import Error404 from './pages/Error404';
 
 function App() {
   return (
@@ -25,6 +26,8 @@ function App() {
           <Route path="/manage-sites" element={<MainLayout><ManageSites /></MainLayout>}  />
           <Route path="/create-post" element={<MainLayout><CreatePost /></MainLayout>}  />
         </Route>
+
+        <Route path="*" element={<Error404 />} />
       </Routes>
     </Router>
   );
