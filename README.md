@@ -65,10 +65,32 @@ python app.py
 ```bash
 cd ../frontend
 npm install
+npm install bootstrap react-bootstrap
+npm install axios react-router-dom
+npm install -D cypress
+npm install react-quill-new
 ```
 
 2. Start development server:
 ```bash
+cd ../backedn
+
+pip install Flask 
+pip install Flask-SQLAlchemy 
+pip install psycopg2-binary 
+pip install Flask-Migrate 
+pip install python-dotenv
+pip install selenium 
+pip install Flask-JWT-Extended 
+pip install pytest
+pip install flask-cors
+pip install Flask-Mail
+pip install Flask-Bcrypt
+pip install python-wordpress-xmlrpc
+pip install cryptography
+pip install selenium webdriver-manager
+pip install webdriver-manager
+
 npm run dev
 ```
 
