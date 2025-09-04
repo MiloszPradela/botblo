@@ -202,7 +202,7 @@ const ManageSites: React.FC = () => {
               </div>
             </div>
             <div className="d-flex align-items-center">
-              <button type="submit" className="btn btn-primary me-3">
+              <button type="submit" className="btn-primary me-3">
                 {isLoading ? 'Przetwarzanie...' : (editingSiteId ? 'Zapisz zmiany' : 'Dodaj i Zapisz Stronę')}
               </button>
               {editingSiteId && (

@@ -84,7 +84,7 @@ const RegisterPage: React.FC = () => {
     return (
         <>
             <AnimatedBackground />
-            <div className="container d-flex align-items-center justify-content-center" style={{minHeight: '100vh', position: 'relative', zIndex: 1}}>
+            <div className="container d-flex align-items-center justify-content-center z-1 position-relative">
                 <div className="auth-card">
                     <img src={logo} alt="BotBlo Logo" className="auth-logo" />
                     <h3 className="mb-4">Zarejestruj się</h3>

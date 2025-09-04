@@ -13,45 +13,35 @@ interface Site {
 interface ApiError {
   message: string;
 }
-// dodac obsluge kategori - bot bedzie musial najpierw sprawdzic czy wpisana kategorie istnieje, jesli tak, wybrac, jesli nie, utworzyc, zaznaczyc, i zapisac
-// do sprawdzenia w pozniejszym etapie wraz dla bota z selenium
+
 const CreatePost: React.FC = () => {
   const [sites, setSites] = useState<Site[]>([]);
   const [selectedSiteId, setSelectedSiteId] = useState<string>('');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [categories, setCategories] = useState<number[]>([]);
-  const [tags, setTags] = useState('');
 
   // Stany dla komunikatów i ładowania
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  // Pobieranie listy zapisanych stron
   useEffect(() => {
     const fetchSites = async () => {
-      
       try {
-        const response = await api.get<Site[]>('/sites');
+        const response = await api.get<Site[]>('/sites'); 
         setSites(response.data);
+        setError(''); 
       } catch (err: unknown) {
         if (axios.isAxiosError(err)) {
-          setSites(err.response?.data?.message || 'Wystąpił błąd podczas zmiany hasła.');
+          setError(err.response?.data?.message || 'Nie udało się pobrać listy stron.');
         } else {
-          setError('Wystąpił nieznany błąd.');
+          setError('Wystąpił nieznany, nieoczekiwany błąd.');
         }
-        
+        setSites([]); 
       }
     };
     fetchSites();
   }, []);
-
-  // Obsługa zmiany kategorii
-  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedOptions = Array.from(e.target.selectedOptions, option => parseInt(option.value));
-    setCategories(selectedOptions);
-  };
   
   // Funkcja wysyłająca wpis
   const handlePublish = async (e: React.FormEvent) => {
@@ -73,8 +63,6 @@ const CreatePost: React.FC = () => {
     const postData = {
       title,
       content,
-      categories,
-      tags: tags.split(',').map(tag => tag.trim()).filter(Boolean)
     };
 
     try {
@@ -86,8 +74,6 @@ const CreatePost: React.FC = () => {
       // Resetowanie formularza
       setTitle('');
       setContent('');
-      setCategories([]);
-      setTags('');
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
         const apiError = err.response.data as ApiError;
@@ -146,35 +132,7 @@ const CreatePost: React.FC = () => {
               <label className="form-label d-block mb-2">Treść</label>
               <ReactQuill theme="snow" value={content} onChange={setContent} style={{ backgroundColor: 'var(--third-color)', color: 'white' }} />
             </div>
-            
-            <div className="row">
-              <div className="col-md-6 mb-4">
-                <label htmlFor="postCategories" className="form-label">Kategorie</label>
-                <select 
-                  multiple 
-                  className="form-select" 
-                  id="postCategories" 
-                  size={5}
-                  value={categories.map(String)}
-                  onChange={handleCategoryChange}
-                >
-                 
-                </select>
-              </div>
-              <div className="col-md-6 mb-4">
-                <label htmlFor="postTags" className="form-label">Tagi (oddzielone przecinkami)</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="postTags"
-                  placeholder="np. react, wordpress, programowanie"
-                  value={tags}
-                  onChange={(e) => setTags(e.target.value)}
-                />
-              </div>
-            </div>
-            
-            <button type="submit" className=" btn-primary ">
+            <button type="submit" className="btn btn-primary">
               {isLoading ? 'Publikowanie...' : 'Opublikuj Wpis'}
             </button>
           </div>

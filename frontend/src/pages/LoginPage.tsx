@@ -43,7 +43,7 @@ const LoginPage: React.FC = () => {
     return (
         <>
             <AnimatedBackground />
-            <div className="container d-flex align-items-center justify-content-center" style={{ minHeight: '100vh', position: 'relative', zIndex: 1 }}>
+            <div className="container d-flex align-items-center justify-content-center position-relative z-1 ">
                 <div className="auth-card">
                     <img src={logo} alt="BotBlo Logo" className="auth-logo" />
                     <h3 className="mb-4">Zaloguj się</h3>
@@ -83,7 +83,7 @@ const LoginPage: React.FC = () => {
                     </form>
                     <div className="text-center">
                         <p><Link to="/register">Nie masz konta? Zarejestruj się</Link></p>
-                        <p><Link to="/lost-password">Zapomniałeś hasła?</Link></p>
+                        <p className="mb-0"><Link to="/lost-password">Zapomniałeś hasła?</Link></p>
                     </div>
                 </div>
             </div>
