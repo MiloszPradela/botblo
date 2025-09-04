@@ -73,7 +73,7 @@ npm install react-quill-new
 
 2. Start development server:
 ```bash
-cd ../backedn
+cd ../backend
 
 pip install Flask 
 pip install Flask-SQLAlchemy 
@@ -91,7 +91,7 @@ pip install cryptography
 pip install selenium webdriver-manager
 pip install webdriver-manager
 
-npm run dev
+python app.py
 ```
 
 3. Access the app at `http://localhost:5173`
