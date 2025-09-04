@@ -1,5 +1,3 @@
-// Plik: src/components/AccountManagement.tsx
-
 import React, { useState, useEffect } from 'react';
 import api from '../api';
 import { useNavigate } from 'react-router-dom';
@@ -18,16 +16,12 @@ interface Post {
 const AccountManagement = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<Tab>('account');
-
-  // State dla formularzy
   const [profileData, setProfileData] = useState({ email: '', username: '' });
   const [profileMessage, setProfileMessage] = useState('');
   const [profileError, setProfileError] = useState('');
   const [passwordData, setPasswordData] = useState({ currentPassword: '', newPassword: '', confirmPassword: '' });
   const [passwordMessage, setPasswordMessage] = useState('');
   const [passwordError, setPasswordError] = useState('');
-
-  // State dla wpisów
   const [posts, setPosts] = useState<Post[]>([]);
   const [postsLoading, setPostsLoading] = useState(false);
   const [postsError, setPostsError] = useState('');
@@ -35,7 +29,7 @@ const AccountManagement = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await api.get('/account/profile');
+        const response = await api.get('/account');
         setProfileData(response.data);
       } catch (error: unknown) {
         if (axios.isAxiosError(error)) {
@@ -54,7 +48,7 @@ const AccountManagement = () => {
         setPostsLoading(true);
         setPostsError('');
         try {
-          const response = await api.get('/account/posts');
+          const response = await api.get('/posts');
           setPosts(response.data);
         } catch (error: unknown) {
           if (axios.isAxiosError(error)) {
@@ -73,14 +67,16 @@ const AccountManagement = () => {
   const handleProfileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setProfileData({ ...profileData, [e.target.name]: e.target.value });
   };
+
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPasswordData({ ...passwordData, [e.target.name]: e.target.value });
   };
+
   const handleProfileSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setProfileMessage(''); setProfileError('');
     try {
-      const response = await api.put('/account/profile', { username: profileData.username });
+      const response = await api.put('/account', { username: profileData.username });
       setProfileMessage(response.data.message);
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
@@ -90,6 +86,7 @@ const AccountManagement = () => {
       }
     }
   };
+
   const handlePasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setPasswordMessage(''); setPasswordError('');
@@ -98,7 +95,7 @@ const AccountManagement = () => {
       return;
     }
     try {
-      const response = await api.put('/account/password', {
+      const response = await api.put('/account', {
         currentPassword: passwordData.currentPassword,
         newPassword: passwordData.newPassword
       });
@@ -112,6 +109,7 @@ const AccountManagement = () => {
       }
     }
   };
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     navigate('/login');
@@ -167,7 +165,6 @@ const AccountManagement = () => {
             </div>
           </div>
         );
-
       case 'posts':
         return (
           <div className="card p-4 card-inner">
@@ -193,18 +190,19 @@ const AccountManagement = () => {
                   ))}
                 </ul>
               ) : (
-                <p className="text-muted">Nie opublikowałeś jeszcze żadnych wpisów.</p>
+                <p className="">Nie opublikowałeś jeszcze żadnych wpisów.</p>
               )
             )}
           </div>
         );
-
       case 'logout':
         return (
           <div className="card p-4 text-center">
             <h3>Wylogowanie</h3> <hr />
-            <p>Czy na pewno chcesz się wylogować z aplikacji?</p>
-            <button className="btn btn-danger btn-lg" onClick={handleLogout}>Tak, wyloguj mnie</button>
+            <p className="mb-4">Czy na pewno chcesz się wylogować z aplikacji?</p>
+            <div className="d-flex justify-content-center w-100 align-items-center"> 
+              <button className="btn btn-danger btn-lg" onClick={handleLogout}>Tak, wyloguj mnie</button>
+            </div>
           </div>
         );
       default:
