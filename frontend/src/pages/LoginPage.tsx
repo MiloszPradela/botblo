@@ -83,7 +83,7 @@ const LoginPage: React.FC = () => {
                     </form>
                     <div className="text-center">
                         <p><Link to="/register">Nie masz konta? Zarejestruj się</Link></p>
-                        <p><Link to="/request-password-reset">Zapomniałeś hasła?</Link></p>
+                        <p><Link to="/lost-password">Zapomniałeś hasła?</Link></p>
                     </div>
                 </div>
             </div>
