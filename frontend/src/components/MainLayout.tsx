@@ -53,7 +53,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 
         <div id="menu-main-open-panel" className={isMenuOpen ? 'active' : ''}>
           <div className="menu-main-open-inner-container container h-100 d-flex flex-column">
-            <div className="d-flex flex-row align-items-center  justify-content-between h-100">
+            <div className="d-flex flex-row align-items-center  justify-content-between h-100 menu-main-open-inner-div">
               <div className="menu-open-logo-area">
                 <img src={logo} alt="BotBlo Menu Logo" className="menu-open-logo-main" />
               </div>
