@@ -5,15 +5,12 @@ __pycache__/
 venv/
 instance/
 
-# Pliki generowane
-error_screenshot.png
+# Pliki środowiskowe
+*.env
 
 # Baza danych
 *.db
 *.sqlite3
-
-# Pliki generowane
-error_screenshot.png
 
 # Node / React
 node_modules/
