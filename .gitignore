@@ -4,10 +4,23 @@ __pycache__/
 .venv
 venv/
 instance/
-.env
+
+# Pliki generowane
+error_screenshot.png
+
+# Baza danych
+*.db
+*.sqlite3
+
+# Pliki generowane
+error_screenshot.png
 
 # Node / React
 node_modules/
 build/
-.DS_Store
 npm-debug.log
+
+# Pliki systemowe i edytora
+.vscode/
+.idea/
+.DS_Store
