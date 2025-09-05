@@ -23,7 +23,7 @@ def create_app():
     app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
     app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
     app.config['MAIL_DEFAULT_SENDER'] = ('BotBlo Admin', os.getenv('MAIL_USERNAME'))
-    app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")
+    app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY", "domyslny-tajny-klucz-zmien-to")
 
     # Inicjalizacja Rozszerzeń 
     db.init_app(app)

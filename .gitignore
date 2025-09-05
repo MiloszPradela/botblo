@@ -5,8 +5,8 @@ __pycache__/
 venv/
 instance/
 
-# Pliki środowiskowe
-.env
+# Pliki generowane
+error_screenshot.png
 
 # Baza danych
 *.db
