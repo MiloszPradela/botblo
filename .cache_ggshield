@@ -1,0 +1,1 @@
+{"last_found_secrets": [{"name": "Generic Password - commit://staged/backend/config/login.py", "match": "0e82d6d6dc20541e990b31d8755ef1da95580ec30a7b6eae34fca3c63086828d"}, {"name": "Generic Password - commit://staged/frontend/src/pages/AccountManagement.tsx", "match": "65d1d4e2d5ec796abb96fcf49166ff3ed741ee675df4530d79e16c8907717614"}]}

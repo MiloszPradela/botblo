@@ -4,10 +4,15 @@ __pycache__/
 .venv
 venv/
 instance/
-.env
 
-# Node / React
-node_modules/
-build/
+# Pliki środowiskowe
+*.env
+
+# Baza danych
+*.db
+*.sqlite3
+
+# Pliki systemowe i edytora
+.vscode/
+.idea/
 .DS_Store
-npm-debug.log

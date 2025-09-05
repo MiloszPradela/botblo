@@ -3,6 +3,7 @@ import api from '../api';
 import axios from 'axios';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
+import CustomSelect from '../components/CustomSelect'; 
 
 interface Site {
   id: number;
@@ -20,7 +21,6 @@ const CreatePost: React.FC = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
 
-  // Stany dla komunikatów i ładowania
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -28,22 +28,21 @@ const CreatePost: React.FC = () => {
   useEffect(() => {
     const fetchSites = async () => {
       try {
-        const response = await api.get<Site[]>('/sites'); 
+        const response = await api.get<Site[]>('/sites');
         setSites(response.data);
-        setError(''); 
+        setError('');
       } catch (err: unknown) {
         if (axios.isAxiosError(err)) {
           setError(err.response?.data?.message || 'Nie udało się pobrać listy stron.');
         } else {
           setError('Wystąpił nieznany, nieoczekiwany błąd.');
         }
-        setSites([]); 
+        setSites([]);
       }
     };
     fetchSites();
   }, []);
-  
-  // Funkcja wysyłająca wpis
+
   const handlePublish = async (e: React.FormEvent) => {
     e.preventDefault();
     setMessage('');
@@ -71,9 +70,9 @@ const CreatePost: React.FC = () => {
         post: postData
       });
       setMessage('Wpis został pomyślnie opublikowany!');
-      // Resetowanie formularza
       setTitle('');
       setContent('');
+      setSelectedSiteId('');
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
         const apiError = err.response.data as ApiError;
@@ -95,21 +94,16 @@ const CreatePost: React.FC = () => {
 
       <form onSubmit={handlePublish}>
         <fieldset disabled={isLoading}>
-          <div className="card p-4 mb-4">
+          <div className="card p-4 mb-4 z-3">
             <div className="mb-3">
               <label htmlFor="siteSelect" className="form-label">1. Wybierz stronę docelową</label>
-              <select 
-                id="siteSelect" 
-                className="form-select" 
-                value={selectedSiteId} 
-                onChange={(e) => setSelectedSiteId(e.target.value)}
-                required
-              >
-                <option value="" disabled>-- Wybierz z listy --</option>
-                {sites.map(site => (
-                  <option key={site.id} value={site.id}>{site.name}</option>
-                ))}
-              </select>
+              
+              <CustomSelect 
+                sites={sites}
+                selectedSiteId={selectedSiteId}
+                setSelectedSiteId={setSelectedSiteId}
+              />
+              
             </div>
           </div>
 
@@ -130,7 +124,12 @@ const CreatePost: React.FC = () => {
 
             <div className="mb-4">
               <label className="form-label d-block mb-2">Treść</label>
-              <ReactQuill theme="snow" value={content} onChange={setContent} style={{ backgroundColor: 'var(--third-color)', color: 'white' }} />
+              <ReactQuill 
+                theme="snow" 
+                value={content} 
+                onChange={setContent} 
+                style={{ backgroundColor: 'var(--third-color)', color: 'white' }} 
+              />
             </div>
             <button type="submit" className="btn btn-primary">
               {isLoading ? 'Publikowanie...' : 'Opublikuj Wpis'}
