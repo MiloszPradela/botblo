@@ -1,16 +1,21 @@
-from flask import render_template_string
+from flask import render_template_string, url_for
 from flask_mail import Message
 from .extensions import mail
 import os
 
 def send_registration_email(user_email):
+    """Wysyła e-mail do administratora z prośbą o zatwierdzenie nowego użytkownika."""
     admin_email = os.getenv('ADMIN_EMAIL')
     if not admin_email:
-        print("Błąd: ADMIN_EMAIL nie jest ustawiony w .env")
+        print("KRYTYCZNY BŁĄD: Zmienna środowiskowa ADMIN_EMAIL nie jest ustawiona.")
         return
 
+    approve_url = url_for('register.approve_user', email=user_email, _external=True)
+    deny_url = url_for('register.deny_user', email=user_email, _external=True)
+
     msg = Message("Nowa prośba o rejestrację w BotBlo", recipients=[admin_email])
-    msg.html = render_template_string("""
+    
+    html_template = """
         <h3>Nowy użytkownik prosi o dostęp do aplikacji BotBlo.</h3>
         <p><b>Email użytkownika:</b> {{ email }}</p>
         <p style="margin-top: 20px;">
@@ -21,12 +26,16 @@ def send_registration_email(user_email):
                 Odrzuć
             </a>
         </p>
-    """, email=user_email, 
-       approve_url=f"http://localhost:5000/api/register/approve?email={user_email}",
-       deny_url=f"http://localhost:5000/api/register/deny?email={user_email}")
+    """
+
+    msg.html = render_template_string(html_template, 
+                                      email=user_email, 
+                                      approve_url=approve_url,
+                                      deny_url=deny_url)
     
     try:
         mail.send(msg)
-        print(f"Wysłano prośbę o aktywację dla {user_email} na adres {admin_email}")
+        print(f"Wysłano prośbę o aktywację dla {user_email} na adres administratora {admin_email}")
     except Exception as e:
-        print(f"Błąd podczas wysyłania e-maila: {e}")
+        print(f"Błąd podczas wysyłania e-maila aktywacyjnego: {e}")
+
