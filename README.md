@@ -49,7 +49,22 @@ cd botblo/backend
 python -m venv venv
 venv\Scriptsctivate   # Windows
 source venv/bin/activate  # Linux/macOS
-pip install -r requirements.txt
+
+pip install Flask 
+pip install Flask-SQLAlchemy 
+pip install psycopg2-binary 
+pip install Flask-Migrate 
+pip install python-dotenv
+pip install selenium 
+pip install Flask-JWT-Extended 
+pip install pytest
+pip install flask-cors
+pip install Flask-Mail
+pip install Flask-Bcrypt
+pip install python-wordpress-xmlrpc
+pip install cryptography
+pip install selenium webdriver-manager
+pip install webdriver-manager
 ```
 
 3. Create and edit `.env` file with database credentials, JWT secret, and mail server settings.
@@ -74,23 +89,6 @@ npm install react-quill-new
 2. Start development server:
 ```bash
 cd ../backend
-
-pip install Flask 
-pip install Flask-SQLAlchemy 
-pip install psycopg2-binary 
-pip install Flask-Migrate 
-pip install python-dotenv
-pip install selenium 
-pip install Flask-JWT-Extended 
-pip install pytest
-pip install flask-cors
-pip install Flask-Mail
-pip install Flask-Bcrypt
-pip install python-wordpress-xmlrpc
-pip install cryptography
-pip install selenium webdriver-manager
-pip install webdriver-manager
-
 python app.py
 ```
 
