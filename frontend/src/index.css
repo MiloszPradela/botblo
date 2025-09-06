@@ -572,4 +572,67 @@ p {
     margin-bottom: 15px !important;
   }
 }
+/********* custom select **********/
+.custom-select-container {
+  position: relative;
+  width: 100%;
+  user-select: none;
+  z-index: 999;
+}
 
+.select-selected {
+  background-color: var(--secondary-color);
+  color: #ecf0f1;
+  padding: 12px 40px 12px 16px;
+  border: 1px solid var(--secondary-color);
+  border-radius: 8px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease-in-out;
+}
+
+.select-selected:hover {
+  border-color: var(--primary-color);
+}
+
+.select-selected::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-color: #ecf0f1 transparent transparent transparent;
+  transition: transform 0.3s ease;
+}
+
+.select-selected.select-arrow-active::after {
+  transform: translateY(calc(-50% - 3px)) rotate(180deg);
+}
+
+.select-items {
+  position: absolute;
+  background-color: #4889ca;
+  top: calc(100% + 5px);
+  left: 0;
+  right: 0;
+  z-index: 99;
+  border: 1px solid var(--primary-color);
+  border-radius: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.select-item {
+  color: var(--white-color);
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+}
+
+.same-as-selected,
+.select-item:hover {
+  background-color: var(--secondary-color);
+}
