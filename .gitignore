@@ -4,9 +4,13 @@ __pycache__/
 .venv
 venv/
 instance/
+/node_modules
+/frontend/node_modules
 
 # Pliki środowiskowe
+.env
 *.env
+
 
 # Baza danych
 *.db
@@ -16,3 +20,6 @@ instance/
 .vscode/
 .idea/
 .DS_Store
+
+# Cache
+.vite/
