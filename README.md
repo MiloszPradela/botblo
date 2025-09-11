@@ -1,3 +1,4 @@
+<img width="1914" height="908" alt="image" src="https://github.com/user-attachments/assets/aa377e81-8dcb-413d-92b4-d7df1fd9e85e" />
 
 # BotBlo - User Authentication System
 
