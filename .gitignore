@@ -11,7 +11,6 @@ instance/
 .env
 *.env
 
-
 # Baza danych
 *.db
 *.sqlite3
@@ -23,3 +22,4 @@ instance/
 
 # Cache
 .vite/
+.cache_ggshield
