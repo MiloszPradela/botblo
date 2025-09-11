@@ -44,36 +44,11 @@ git clone <repo_url>
 cd botblo/backend
 ```
 
-2. Set up Python virtual environment and install dependencies:
+2. Set up Python virtual environment and dependencies:
 ```bash
 python -m venv venv
 venv\Scriptsctivate   # Windows
 source venv/bin/activate  # Linux/macOS
-pip install -r requirements.txt
-```
-
-3. Create and edit `.env` file with database credentials, JWT secret, and mail server settings.
-
-4. Run the backend server:
-```bash
-python app.py
-```
-
-### Frontend
-
-1. Navigate to frontend and install dependencies:
-```bash
-cd ../frontend
-npm install
-npm install bootstrap react-bootstrap
-npm install axios react-router-dom
-npm install -D cypress
-npm install react-quill-new
-```
-
-2. Start development server:
-```bash
-cd ../backend
 
 pip install Flask 
 pip install Flask-SQLAlchemy 
@@ -91,7 +66,34 @@ pip install cryptography
 pip install selenium webdriver-manager
 pip install webdriver-manager
 
+```
+
+3. Create and edit `.env` file with database credentials, JWT secret, and mail server settings.
+
+4. Run the backend server:
+```bash
+cd ../backend - to start server
 python app.py
+```
+
+### Frontend
+
+1. Navigate to frontend and install dependencies:
+```bash
+cd ../frontend
+npm install
+npm install bootstrap react-bootstrap
+npm install axios react-router-dom
+npm install -D cypress
+npm install react-quill-new
+```
+
+2. Start development server:
+```bash
+*****
+cd ../frontend - to start app
+npm run dev
+*****
 ```
 
 3. Access the app at `http://localhost:5173`

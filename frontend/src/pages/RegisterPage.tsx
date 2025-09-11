@@ -23,6 +23,8 @@ const RegisterPage: React.FC = () => {
     });
 
     const [errors, setErrors] = useState<Record<string, string>>({});
+    const [isLoading, setIsLoading] = useState(false);
+    const [registrationSuccess, setRegistrationSuccess] = useState(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target; 
@@ -61,14 +63,21 @@ const RegisterPage: React.FC = () => {
         e.preventDefault();
         if (!validate()) return;
         
+        setIsLoading(true);
+        
         try {
             await axios.post('/api/register/request', {
                 username: formData.username,
                 email: formData.email,
                 password: formData.password
             });
-            showAlert('Prośba o rejestrację została wysłana! Sprawdź e-mail od administratora.', 'success');
-            setTimeout(() => navigate('/login'), 2000);
+
+            setRegistrationSuccess(true);
+            
+            setTimeout(() => {
+                navigate('/login');
+            }, 5000);
+
         } catch (err) {
             if (axios.isAxiosError(err)) {
                 const axiosError = err as AxiosError<ApiError>;
@@ -78,6 +87,8 @@ const RegisterPage: React.FC = () => {
                 console.error("An unexpected error occurred:", err);
                 showAlert('Wystąpił nieoczekiwany błąd. Spróbuj ponownie.', 'danger');
             }
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -87,35 +98,47 @@ const RegisterPage: React.FC = () => {
             <div className="container d-flex align-items-center justify-content-center z-1 position-relative">
                 <div className="auth-card">
                     <img src={logo} alt="BotBlo Logo" className="auth-logo" />
-                    <h3 className="mb-4">Zarejestruj się</h3>
 
-                    <form onSubmit={handleSubmit} noValidate>
-                        <div className="form-floating mb-3">
-                            <input type="text" className={`form-control ${errors.username ? 'is-invalid' : ''}`} id="username" name="username" placeholder="Nazwa użytkownika" value={formData.username} onChange={handleChange} required />
-                            <label htmlFor="username">Nazwa użytkownika</label>
-                            {errors.username && <div className="text-danger mt-1 small text-start ps-1">{errors.username}</div>}
+                    {registrationSuccess ? (
+                        <div className="text-center">
+                            <h3 className="mb-3">Rejestracja udana!</h3>
+                            <p>Prośba o rejestrację została wysłana. Sprawdź e-mail od administratora.</p>
+                            <p>Za chwilę zostaniesz przekierowany na stronę logowania...</p>
                         </div>
-                        <div className="form-floating mb-3">
-                            <input type="email" className={`form-control ${errors.email ? 'is-invalid' : ''}`} id="email" name="email" placeholder="name@example.com" value={formData.email} onChange={handleChange} required />
-                            <label htmlFor="email">Adres e-mail</label>
-                            {errors.email && <div className="text-danger mt-1 small text-start ps-1">{errors.email}</div>}
-                        </div>
-                        <div className="form-floating mb-3">
-                            <input type="password" className={`form-control ${errors.password ? 'is-invalid' : ''}`} id="password" name="password" placeholder="Hasło" value={formData.password} onChange={handleChange} required />
-                            <label htmlFor="password">Hasło</label>
-                            {errors.password && <div className="text-danger mt-1 small text-start ps-1">{errors.password}</div>}
-                        </div>
-                        <div className="form-floating mb-4">
-                            <input type="password" className={`form-control ${errors.confirmPassword ? 'is-invalid' : ''}`} id="confirmPassword" name="confirmPassword" placeholder="Potwierdź hasło" value={formData.confirmPassword} onChange={handleChange} required />
-                            <label htmlFor="confirmPassword">Potwierdź hasło</label>
-                            {errors.confirmPassword && <div className="text-danger mt-1 small text-start ps-1">{errors.confirmPassword}</div>}
-                        </div>
-                        
-                        <button type="submit" className="btn btn-primary w-100 mb-3">Zarejestruj</button>
-                    </form>
-                    <div className="text-center">
-                        <Link to="/login">Masz już konto? Zaloguj się</Link>
-                    </div>
+                    ) : (
+                        <>
+                            <h3 className="mb-4">Zarejestruj się</h3>
+                            <form onSubmit={handleSubmit} noValidate>
+                                <div className="form-floating mb-3">
+                                    <input type="text" className={`form-control ${errors.username ? 'is-invalid' : ''}`} id="username" name="username" placeholder="Nazwa użytkownika" value={formData.username} onChange={handleChange} required />
+                                    <label htmlFor="username">Nazwa użytkownika</label>
+                                    {errors.username && <div className="text-danger mt-1 small text-start ps-1">{errors.username}</div>}
+                                </div>
+                                <div className="form-floating mb-3">
+                                    <input type="email" className={`form-control ${errors.email ? 'is-invalid' : ''}`} id="email" name="email" placeholder="name@example.com" value={formData.email} onChange={handleChange} required />
+                                    <label htmlFor="email">Adres e-mail</label>
+                                    {errors.email && <div className="text-danger mt-1 small text-start ps-1">{errors.email}</div>}
+                                </div>
+                                <div className="form-floating mb-3">
+                                    <input type="password" className={`form-control ${errors.password ? 'is-invalid' : ''}`} id="password" name="password" placeholder="Hasło" value={formData.password} onChange={handleChange} required />
+                                    <label htmlFor="password">Hasło</label>
+                                    {errors.password && <div className="text-danger mt-1 small text-start ps-1">{errors.password}</div>}
+                                </div>
+                                <div className="form-floating mb-4">
+                                    <input type="password" className={`form-control ${errors.confirmPassword ? 'is-invalid' : ''}`} id="confirmPassword" name="confirmPassword" placeholder="Potwierdź hasło" value={formData.confirmPassword} onChange={handleChange} required />
+                                    <label htmlFor="confirmPassword">Potwierdź hasło</label>
+                                    {errors.confirmPassword && <div className="text-danger mt-1 small text-start ps-1">{errors.confirmPassword}</div>}
+                                </div>
+                                
+                                <button type="submit" className="btn btn-primary w-100 mb-3" disabled={isLoading}>
+                                    {isLoading ? 'Wysyłanie...' : 'Zarejestruj'}
+                                </button>
+                            </form>
+                            <div className="text-center">
+                                <Link to="/login">Masz już konto? Zaloguj się</Link>
+                            </div>
+                        </>
+                    )}
                 </div>
             </div>
         </>
