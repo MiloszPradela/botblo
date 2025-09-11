@@ -119,14 +119,14 @@ const AccountManagement = () => {
     switch (activeTab) {
       case 'account':
         return (
-          <div className="row g-5">
-            <div className="col-lg-6">
+          <div className="d-flex w-100 gap-4 flex-column flex-md-row">
+            <div className="w-100">
               <div className="card p-4 h-100 card-inner">
                 <h3>Dane Profilu</h3>
                 <hr />
                 {profileMessage && <div className="alert alert-success">{profileMessage}</div>}
                 {profileError && <div className="alert alert-danger">{profileError}</div>}
-                <form onSubmit={handleProfileSubmit}>
+                <form onSubmit={handleProfileSubmit} className="d-flex flex-column h-100">
                   <div className="form-floating mb-3">
                     <input type="text" className="form-control" id="username" name="username" value={profileData.username || ''} onChange={handleProfileChange} placeholder="Nazwa użytkownika" />
                     <label htmlFor="username">Nazwa użytkownika</label>
@@ -136,11 +136,11 @@ const AccountManagement = () => {
                     <label htmlFor="email">Adres e-mail</label>
                     <div className="form-text mt-2">Zmiana adresu e-mail wymaga kontaktu z administratorem.</div>
                   </div>
-                  <button type="submit" className="btn-primary">Zapisz zmiany</button>
+                  <button type="submit" className="btn-primary mt-auto align-self-start">Zapisz zmiany</button>
                 </form>
               </div>
             </div>
-            <div className="col-lg-6">
+            <div className="w-100">
               <div className="card p-4 h-100 card-inner">
                 <h3>Zmiana hasła</h3>
                 <hr />
